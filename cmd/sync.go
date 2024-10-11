@@ -11,7 +11,7 @@ var all bool
 
 var syncCmd = &cobra.Command{
 	Use:   "sync [identifier]",
-	Short: "Sync the local directory with the specified GitHub repository",
+	Short: "Sync the local directory with the specified Git repository",
 	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		config, err := tools.LoadConfig()
