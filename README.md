@@ -55,13 +55,13 @@ fluxfile edit [identifier]
 ```
   
 
-### Delete
+### Remove
 
-Delete a specific project.
+Remove a specific project.
 
   
 ``` bash
-fluxfile delete [identifier]
+fluxfile remove [identifier]
 ```
 
 ## Configuration

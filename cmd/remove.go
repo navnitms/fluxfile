@@ -7,9 +7,9 @@ import (
     "github.com/spf13/cobra"
 )
 
-var deleteCmd = &cobra.Command{
-    Use:   "delete [identifier]",
-    Short: "Delete a specific project",
+var removeCmd = &cobra.Command{
+    Use:   "remove [identifier]",
+    Short: "Remove a specific project",
     Args:  cobra.ExactArgs(1),
     Run: func(cmd *cobra.Command, args []string) {
         identifier := args[0]
@@ -26,10 +26,10 @@ var deleteCmd = &cobra.Command{
             return
         }
 
-        fmt.Printf("Project '%s' has been deleted successfully.\n", identifier)
+        fmt.Printf("Project '%s' has been removed successfully.\n", identifier)
     },
 }
 
 func init() {
-    rootCmd.AddCommand(deleteCmd)
+    rootCmd.AddCommand(removeCmd)
 }
