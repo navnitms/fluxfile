@@ -5,7 +5,6 @@ import (
 	"fluxfile/tools"
 	"fmt"
 	"os"
-
 	"github.com/spf13/cobra"
 )
 
@@ -33,6 +32,7 @@ var editCmd = &cobra.Command{
 		fmt.Print("Enter new directory (or press Enter to keep the current): ")
 		newDir, _ := reader.ReadString('\n')
 		newDir = tools.SanitizeInput(newDir)
+		if newDir != "" {
 		if _, err := os.Stat(newDir); os.IsNotExist(err) {
 			fmt.Println("Error: Directory does not exist. Please provide a valid path.")
 			return
@@ -40,6 +40,7 @@ var editCmd = &cobra.Command{
 		if newDir != "" {
 			project.Directory = newDir
 		}
+	}
 
 		fmt.Printf("Current GitHub URL for '%s': %s\n", identifier, project.GitURL)
 		fmt.Print("Enter new GitHub URL (or press Enter to keep the current): ")
