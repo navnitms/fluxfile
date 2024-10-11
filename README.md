@@ -76,9 +76,13 @@ Example Configuration
 ```yml
 projects:
 - project_name: myproject
-	directory: /path/to/myproject
-	git_url: https://github.com/username/myproject.git
-	branch_name: main
+  directory: /path/to/myproject
+  git_url: https://github.com/username/myproject.git
+  branch_name: main
+
+
+ssh_enabled: true
+
 ```
   
   
