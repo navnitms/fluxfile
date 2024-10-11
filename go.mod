@@ -1,6 +1,6 @@
 module fluxfile
 
-go 1.23.1
+go 1.23
 
 require github.com/spf13/cobra v1.8.1
 
