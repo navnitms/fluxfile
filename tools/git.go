@@ -14,6 +14,29 @@ func SyncProject(project *Project) {
         return
     }
 
+    cmdGetURL := exec.Command("git", "remote", "get-url", "origin")
+    currentURL, err := cmdGetURL.CombinedOutput()
+    if err != nil {
+        fmt.Printf("Error getting current remote URL: %s\nOutput: %s\n", err, string(currentURL))
+        return
+    }
+
+    cmdSetURL := exec.Command("git", "remote", "set-url", "origin", project.GitURL)
+    if output, err := cmdSetURL.CombinedOutput(); err != nil {
+        fmt.Printf("Error setting remote URL: %s\nOutput: %s\n", err, string(output))
+        return
+    }
+
+    defer func() {
+        // Restore the original remote URL
+        cmdRestoreURL := exec.Command("git", "remote", "set-url", "origin", strings.TrimSpace(string(currentURL)))
+        if output, err := cmdRestoreURL.CombinedOutput(); err != nil {
+            fmt.Printf("Error restoring original remote URL: %s\nOutput: %s\n", err, string(output))
+        }
+        fmt.Printf("Time taken to restore original remote URL: %s\n", time.Since(start).String())
+    }()
+
+
     cmdStatus := exec.Command("git", "status", "--porcelain")
     statusOutput, err := cmdStatus.CombinedOutput()
     if err != nil {
