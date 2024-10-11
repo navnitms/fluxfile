@@ -33,7 +33,6 @@ func SyncProject(project *Project) {
         if output, err := cmdRestoreURL.CombinedOutput(); err != nil {
             fmt.Printf("Error restoring original remote URL: %s\nOutput: %s\n", err, string(output))
         }
-        fmt.Printf("Time taken to restore original remote URL: %s\n", time.Since(start).String())
     }()
 
 
