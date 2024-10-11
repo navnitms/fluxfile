@@ -46,11 +46,27 @@ var editCmd = &cobra.Command{
 		newGitURL, _ := reader.ReadString('\n')
 		newGitURL = tools.SanitizeInput(newGitURL)
 		if newGitURL != "" {
-			project.GitURL = newGitURL
-		}
+            sshEnabled, err := tools.CheckSSHEnabled(config)
+            if err != nil {
+                fmt.Print("Do you want to enable SSH for GitHub URLs? (yes/no, default: yes): ")
+                sshAnswer, _ := reader.ReadString('\n')
+                sshAnswer = tools.SanitizeInput(sshAnswer)
+                if sshAnswer == "" || sshAnswer == "yes" {
+                    sshEnabled = true
+                } else {
+                    sshEnabled = false
+                }
+                tools.UpdateSSHEnabled(config, sshEnabled)
+            }
 
-		fmt.Printf("Current GitHub URL for '%s': %s\n", identifier, project.GitURL)
-		fmt.Print("Enter new GitHub URL (or press Enter to keep the current): ")
+            if sshEnabled {
+                newGitURL = tools.ToSSHFormat(newGitURL)
+            }
+            project.GitURL = newGitURL
+        }
+
+		fmt.Printf("Current Branch Name for '%s': %s\n", identifier, project.BranchName)
+		fmt.Print("Enter new Branch Name (or press Enter to keep the current): ")
 		newBranchName, _ := reader.ReadString('\n')
 		newBranchName = tools.SanitizeInput(newBranchName)
 		if newBranchName != "" {

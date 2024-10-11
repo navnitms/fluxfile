@@ -42,6 +42,23 @@ var initCmd = &cobra.Command{
 			return
 		}
 
+		sshEnabled, err := tools.CheckSSHEnabled(config)
+        if err != nil {
+            fmt.Print("Do you want to enable SSH for GitHub URLs? (yes/no, default: yes): ")
+            sshAnswer, _ := reader.ReadString('\n')
+            sshAnswer = tools.SanitizeInput(sshAnswer)
+            if sshAnswer == "" || sshAnswer == "yes" {
+                sshEnabled = true
+            } else {
+                sshEnabled = false
+            }
+            tools.UpdateSSHEnabled(config, sshEnabled)
+        }
+
+        if sshEnabled {
+            gitURL = tools.ToSSHFormat(gitURL)
+        }
+
 		fmt.Print("Enter the branch name: ")
 		branchName, _ := reader.ReadString('\n')
 		branchName = tools.SanitizeInput(branchName)

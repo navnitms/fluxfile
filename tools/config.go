@@ -18,6 +18,7 @@ type Project struct {
 
 type Config struct {
     Projects []Project `yaml:"projects"`
+    SSHEnabled *bool `yaml:"ssh_enabled,omitempty"`
 }
 
 var configFilePath string
@@ -110,4 +111,15 @@ func RemoveProject(config *Config, identifier string) error {
     
     config.Projects = append(config.Projects[:index], config.Projects[index+1:]...)
     return SaveConfig(config)
+}
+
+func CheckSSHEnabled(config *Config) (bool, error) {
+    if config.SSHEnabled == nil {
+        return false, errors.New("SSH setting is missing")
+    }
+    return *config.SSHEnabled, nil
+}
+
+func UpdateSSHEnabled(config *Config, enabled bool) {
+    config.SSHEnabled = &enabled
 }
